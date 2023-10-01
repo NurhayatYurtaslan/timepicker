@@ -10,9 +10,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TimeOfDay _timeOfDay = const TimeOfDay(hour: 00, minute: 00);
-  Color _backgroundColor = Colors.white;
-  Color _buttonColor = Colors.blue;
+  Color _backgroundColor = Colors.purple;
+  Color _buttonColor = Colors.white;
   Color _textColor = Colors.black;
+  Color _timeColor = Colors.black;
+  Color _appbarColor = Colors.red;
 
   void _showTimePicker() async {
     final TimeOfDay? selectedTime = await showTimePicker(
@@ -69,6 +71,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void _selectAppBarColor() {
+    _selectColor(_appbarColor, (color) {
+      setState(() {
+        _appbarColor = color;
+      });
+    });
+  }
+
   void _selectBackgroundColor() {
     _selectColor(_backgroundColor, (color) {
       setState(() {
@@ -93,6 +103,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _selectTimColor() {
+    _selectColor(_timeColor, (color) {
+      setState(() {
+        _timeColor = color;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +122,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Text(
                 _timeOfDay.format(context).toString(),
-                style: TextStyle(fontSize: 50, color: _textColor),
+                style: TextStyle(fontSize: 50, color: _timeColor),
               ),
               MaterialButton(
                 onPressed: _showTimePicker,
@@ -126,26 +144,36 @@ class _HomePageState extends State<HomePage> {
       //   child: const Icon(Icons.color_lens),
       // ),
       appBar: AppBar(
-        backgroundColor: _backgroundColor,
+        backgroundColor: _appbarColor,
         title: Text(
           'Color Picker',
           style: TextStyle(color: _textColor),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.format_color_fill),
+            icon: Icon(Icons.color_lens_sharp),
             color: _textColor,
+            onPressed: _selectAppBarColor,
+          ),
+          IconButton(
+            icon: Icon(Icons.color_lens),
+            color: _backgroundColor,
             onPressed: _selectBackgroundColor,
           ),
           IconButton(
-            icon: Icon(Icons.palette),
-            color: _textColor,
+            icon: Icon(Icons.smart_button),
+            color: _buttonColor,
             onPressed: _selectButtonColor,
           ),
           IconButton(
             icon: Icon(Icons.text_fields),
             color: _textColor,
             onPressed: _selectTextColor,
+          ),
+          IconButton(
+            icon: Icon(Icons.timer_sharp),
+            color: _timeColor,
+            onPressed: _selectTimColor,
           ),
         ],
       ),
